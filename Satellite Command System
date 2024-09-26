@@ -1,5 +1,5 @@
 Problem 1: Satellite Command System (Java)
-We will use:
+
 
 Singleton Pattern to ensure that only one satellite instance exists.
 Command Pattern to encapsulate commands like rotate, activate panels, and collect data.
