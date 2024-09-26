@@ -1,0 +1,100 @@
+Problem 2: Virtual Classroom Manager (Java)
+We will use:
+
+Factory Pattern to dynamically create Classroom and Student objects.
+Observer Pattern to notify students when an assignment is scheduled.
+Step 1: Classroom and Student Classes
+These classes represent the main entities of the system.
+
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Classroom {
+    private String name;
+    private List<Student> students;
+
+    public Classroom(String name) {
+        this.name = name;
+        this.students = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+        System.out.println(student.getId() + " has been enrolled in " + name);
+    }
+
+    public void listStudents() {
+        System.out.println("Students in " + name + ":");
+        for (Student student : students) {
+            System.out.println("- " + student.getId());
+        }
+    }
+
+    public void notifyStudents(String assignmentDetails) {
+        System.out.println("Notifying students about the new assignment...");
+        for (Student student : students) {
+            student.receiveNotification(assignmentDetails);
+        }
+    }
+}
+
+public class Student {
+    private int id;
+
+    public Student(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void receiveNotification(String assignmentDetails) {
+        System.out.println("Student " + id + " notified about assignment: " + assignmentDetails);
+    }
+}
+Step 2: Factory Class
+This class will create Classroom and Student instances dynamically.
+
+
+public class ClassroomFactory {
+    public static Classroom createClassroom(String name) {
+        return new Classroom(name);
+    }
+
+    public static Student createStudent(int id) {
+        return new Student(id);
+    }
+}
+Step 3: Main Class (Client Code)
+Now, let's bring everything together.
+
+
+public class Main {
+    public static void main(String[] args) {
+        // Create a classroom
+        Classroom mathClass = ClassroomFactory.createClassroom("Math101");
+
+        // Enroll students in the class
+        Student student1 = ClassroomFactory.createStudent(123);
+        Student student2 = ClassroomFactory.createStudent(456);
+        mathClass.addStudent(student1);
+        mathClass.addStudent(student2);
+
+        // List students
+        mathClass.listStudents();
+
+        // Notify students of a new assignment
+        mathClass.notifyStudents("Assignment 1: Solve Algebra problems.");
+    }
+}
+Explanation of the Design Patterns Used:
+Singleton Pattern (Satellite Command System): The Satellite class is a singleton, ensuring only one instance of the satellite exists.
+Command Pattern (Satellite Command System): Commands like Rotate, Activate Panels, and Collect Data are encapsulated as objects that can be executed on the satellite.
+Factory Pattern (Virtual Classroom Manager): The ClassroomFactory creates instances of Classroom and Student dynamically.
+Observer Pattern (Virtual Classroom Manager): When a new assignment is created, students are automatically notified using the observer pattern.
