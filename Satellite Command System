@@ -1,0 +1,176 @@
+Problem 1: Satellite Command System (Java)
+We will use:
+
+Singleton Pattern to ensure that only one satellite instance exists.
+Command Pattern to encapsulate commands like rotate, activate panels, and collect data.
+Step 1: Satellite Class (Singleton)
+This class will maintain the satellite's state (orientation, solar panel status, data collected).
+
+public class Satellite {
+    private static Satellite instance; // Singleton instance
+
+    private String orientation;
+    private boolean solarPanelsActive;
+    private int dataCollected;
+
+    // Private constructor for Singleton
+    private Satellite() {
+        this.orientation = "North"; // Initial orientation
+        this.solarPanelsActive = false; // Initial solar panel status
+        this.dataCollected = 0; // Initial data collection
+    }
+
+    // Public method to get the Singleton instance
+    public static Satellite getInstance() {
+        if (instance == null) {
+            instance = new Satellite();
+        }
+        return instance;
+    }
+
+    // Satellite functionality
+    public void rotate(String direction) {
+        this.orientation = direction;
+        System.out.println("Satellite rotated to " + orientation);
+    }
+
+    public void activatePanels() {
+        this.solarPanelsActive = true;
+        System.out.println("Solar panels activated.");
+    }
+
+    public void deactivatePanels() {
+        this.solarPanelsActive = false;
+        System.out.println("Solar panels deactivated.");
+    }
+
+    public void collectData() {
+        if (solarPanelsActive) {
+            dataCollected += 10;
+            System.out.println("Data collected: " + dataCollected + " units.");
+        } else {
+            System.out.println("Cannot collect data, solar panels are inactive.");
+        }
+    }
+}
+Step 2: Command Interface
+We'll create a generic interface for executing commands. Each specific command will implement this interface.
+
+
+// Command Interface
+public interface Command {
+    void execute();
+}
+Step 3: Concrete Command Classes
+Each command (rotate, activate panels, collect data, etc.) will have its own class that implements the Command interface.
+
+java
+Copy code
+// Rotate Command
+public class RotateCommand implements Command {
+    private Satellite satellite;
+    private String direction;
+
+    public RotateCommand(Satellite satellite, String direction) {
+        this.satellite = satellite;
+        this.direction = direction;
+    }
+
+    @Override
+    public void execute() {
+        satellite.rotate(direction);
+    }
+}
+
+// Activate Panels Command
+public class ActivatePanelsCommand implements Command {
+    private Satellite satellite;
+
+    public ActivatePanelsCommand(Satellite satellite) {
+        this.satellite = satellite;
+    }
+
+    @Override
+    public void execute() {
+        satellite.activatePanels();
+    }
+}
+
+// Deactivate Panels Command
+public class DeactivatePanelsCommand implements Command {
+    private Satellite satellite;
+
+    public DeactivatePanelsCommand(Satellite satellite) {
+        this.satellite = satellite;
+    }
+
+    @Override
+    public void execute() {
+        satellite.deactivatePanels();
+    }
+}
+
+// Collect Data Command
+public class CollectDataCommand implements Command {
+    private Satellite satellite;
+
+    public CollectDataCommand(Satellite satellite) {
+        this.satellite = satellite;
+    }
+
+    @Override
+    public void execute() {
+        satellite.collectData();
+    }
+}
+Step 4: Command Invoker
+The invoker will handle the command execution process.
+
+java
+Copy code
+public class CommandInvoker {
+    private Command command;
+
+    public void setCommand(Command command) {
+        this.command = command;
+    }
+
+    public void executeCommand() {
+        command.execute();
+    }
+}
+Step 5: Client Code (Main Class)
+Now, we bring everything together in the Main class.
+
+
+public class Main {
+    public static void main(String[] args) {
+        Satellite satellite = Satellite.getInstance(); // Singleton instance of Satellite
+
+        CommandInvoker invoker = new CommandInvoker();
+
+        // Rotate satellite to South
+        Command rotateSouth = new RotateCommand(satellite, "South");
+        invoker.setCommand(rotateSouth);
+        invoker.executeCommand();
+
+        // Activate solar panels
+        Command activatePanels = new ActivatePanelsCommand(satellite);
+        invoker.setCommand(activatePanels);
+        invoker.executeCommand();
+
+        // Collect data
+        Command collectData = new CollectDataCommand(satellite);
+        invoker.setCommand(collectData);
+        invoker.executeCommand();
+
+        // Deactivate solar panels
+        Command deactivatePanels = new DeactivatePanelsCommand(satellite);
+        invoker.setCommand(deactivatePanels);
+        invoker.executeCommand();
+
+        // Try to collect data with solar panels deactivated
+        invoker.setCommand(collectData);
+        invoker.executeCommand();
+    }
+}
