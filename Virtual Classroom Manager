@@ -1,11 +1,11 @@
 Problem 2: Virtual Classroom Manager (Java)
-We will use:
 
 Factory Pattern to dynamically create Classroom and Student objects.
 Observer Pattern to notify students when an assignment is scheduled.
+
+
 Step 1: Classroom and Student Classes
 These classes represent the main entities of the system.
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,9 +58,10 @@ public class Student {
         System.out.println("Student " + id + " notified about assignment: " + assignmentDetails);
     }
 }
+
+
 Step 2: Factory Class
 This class will create Classroom and Student instances dynamically.
-
 
 public class ClassroomFactory {
     public static Classroom createClassroom(String name) {
@@ -71,8 +72,10 @@ public class ClassroomFactory {
         return new Student(id);
     }
 }
+
+
 Step 3: Main Class (Client Code)
-Now, let's bring everything together.
+bringing everything together
 
 
 public class Main {
@@ -93,6 +96,7 @@ public class Main {
         mathClass.notifyStudents("Assignment 1: Solve Algebra problems.");
     }
 }
+
 Explanation of the Design Patterns Used:
 Singleton Pattern (Satellite Command System): The Satellite class is a singleton, ensuring only one instance of the satellite exists.
 Command Pattern (Satellite Command System): Commands like Rotate, Activate Panels, and Collect Data are encapsulated as objects that can be executed on the satellite.
