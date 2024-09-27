@@ -3,6 +3,8 @@ Problem 1: Satellite Command System (Java)
 
 Singleton Pattern to ensure that only one satellite instance exists.
 Command Pattern to encapsulate commands like rotate, activate panels, and collect data.
+
+
 Step 1: Satellite Class (Singleton)
 This class will maintain the satellite's state (orientation, solar panel status, data collected).
 
@@ -53,6 +55,8 @@ public class Satellite {
         }
     }
 }
+
+
 Step 2: Command Interface
 We'll create a generic interface for executing commands. Each specific command will implement this interface.
 
@@ -61,11 +65,11 @@ We'll create a generic interface for executing commands. Each specific command w
 public interface Command {
     void execute();
 }
+
+
 Step 3: Concrete Command Classes
 Each command (rotate, activate panels, collect data, etc.) will have its own class that implements the Command interface.
 
-java
-Copy code
 // Rotate Command
 public class RotateCommand implements Command {
     private Satellite satellite;
@@ -123,11 +127,12 @@ public class CollectDataCommand implements Command {
         satellite.collectData();
     }
 }
+
+
 Step 4: Command Invoker
 The invoker will handle the command execution process.
 
-java
-Copy code
+
 public class CommandInvoker {
     private Command command;
 
@@ -139,9 +144,10 @@ public class CommandInvoker {
         command.execute();
     }
 }
+
+
 Step 5: Client Code (Main Class)
 Now, we bring everything together in the Main class.
-
 
 public class Main {
     public static void main(String[] args) {
