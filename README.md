@@ -1,1 +1,1 @@
-Documented text file of EI2024-25 solutions in the desired format.
+Documented text file of EI2024-25 Exercises solutions in the desired format.
